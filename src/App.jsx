@@ -1,14 +1,12 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 function App() {
     const [length, setLength] = useState(8);
     const [numberAllowed, setNumberAllowed] = useState(false);
     const [charAllowed, setCharAllowed] = useState(false);
     const [password, setPassword] = useState("");
-    const passwordRef = useRef(null);
     const [site, setSite] = useState("");
     const [savedPasswords, setSavedPasswords] = useState([]);
 
-    // Removed unused copyPasswordToClipboard
     const copySavedPassword = (password) => {
         window.navigator.clipboard.writeText(password);
     };
@@ -18,12 +16,13 @@ function App() {
         setSavedPasswords(filtered);
         localStorage.setItem("passwords", JSON.stringify(filtered));
     };
+
     const savePassword = () => {
         if (!site || !password) return;
         const newEntry = {
             id: Date.now(),
-            site,
-            password,
+            site: site,
+            password: password,
         };
         const updatedPasswords = [...savedPasswords, newEntry];
         setSavedPasswords(updatedPasswords);
@@ -42,12 +41,14 @@ function App() {
         }
         setPassword(pass);
     }, [length, numberAllowed, charAllowed]);
+
     useEffect(() => {
         const stored = JSON.parse(localStorage.getItem("passwords"));
         if (stored) {
             setSavedPasswords(stored);
         }
     }, []);
+    
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-900 px-4">
             <div className="w-full max-w-3xl grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -62,7 +63,6 @@ function App() {
                             className="w-full px-3 py-2 bg-gray-900 text-orange-400 outline-none text-sm"
                             placeholder="Password"
                             readOnly
-                            ref={passwordRef}
                         />
                         <button
                             onClick={() => {
