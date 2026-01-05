@@ -30,7 +30,7 @@ function GeneratePassword() {
         />
         <button
           onClick={generatePassword}
-          className="bg-blue-600 px-4 text-white"
+          className="bg-blue-600 px-4 text-white cursor-pointer"
         >
           Generate
         </button>
@@ -46,7 +46,7 @@ function GeneratePassword() {
         />
         <button
           onClick={savePassword}
-          className="bg-green-600 px-4 text-white"
+          className="bg-green-600 px-4 text-white cursor-pointer"
         >
           Save
         </button>
@@ -61,11 +61,11 @@ function GeneratePassword() {
             max={30}
             value={length}
             onChange={(e) => setLength(e.target.value)}
-            className="w-full accent-orange-500"
+            className="w-full accent-orange-500 cursor-pointer"
           />
         </div>
 
-        <label className="flex gap-2">
+        <label className="flex gap-2 cursor-pointer">
           <input
             type="checkbox"
             checked={numberAllowed}
@@ -74,7 +74,7 @@ function GeneratePassword() {
           Include Numbers
         </label>
 
-        <label className="flex gap-2">
+        <label className="flex gap-2 cursor-pointer">
           <input
             type="checkbox"
             checked={charAllowed}
