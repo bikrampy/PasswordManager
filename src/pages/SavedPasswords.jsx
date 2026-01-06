@@ -1,11 +1,16 @@
 import { useOutletContext } from "react-router-dom";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 function SavedPasswords() {
-  const { savedPasswords, deleteSavedPassword } = useOutletContext();
-
-  const passwordRefs = useRef({});
+  const { savedPasswords, copySavedPassword, deleteSavedPassword } = useOutletContext();
   const [copiedId, setCopiedId] = useState(null);
+  const handleCopy = (id, password) => {
+    copySavedPassword(password);
+    setCopiedId(id);
+    setTimeout(() => {
+      setCopiedId(null);
+    }, 1500);
+  };
 
   if (savedPasswords.length === 0) {
     return (
@@ -29,9 +34,7 @@ function SavedPasswords() {
           >
             <div>
               <p className="text-orange-400">{item.site}</p>
-              <p
-                className="text-xs text-gray-300 font-mono"
-                ref={(el) => (passwordRefs.current[item.id] = el)}
+              <p className="text-xs text-gray-300 font-mono"
               >
                 {item.password}
               </p>
@@ -39,15 +42,7 @@ function SavedPasswords() {
 
             <div className="flex gap-2">
               <button
-                onClick={() => {
-                  const text = passwordRefs.current[item.id]?.innerText;
-                  if (!text) return;
-                  navigator.clipboard.writeText(text);
-                  setCopiedId(item.id);
-                  setTimeout(() => {
-                    setCopiedId(null);
-                  }, 1500);
-                }}
+                onClick={() => { handleCopy(item.id, item.password) }}
                 className={`px-3 py-1 text-xs text-white cursor-pointer ${copiedId === item.id ? "bg-green-600" : "bg-blue-600"}`}
               >
                 {copiedId === item.id ? "Copied!" : "Copy"}
